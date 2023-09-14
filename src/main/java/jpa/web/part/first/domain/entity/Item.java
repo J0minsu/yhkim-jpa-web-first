@@ -1,5 +1,6 @@
 package jpa.web.part.first.domain.entity;
 
+import jpa.web.part.first.domain.exception.NotEnoughStockException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,4 +34,19 @@ public abstract class Item {
     private int stockQuantity;
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<Category>();
+
+    /**
+     * Business logic
+     */
+    public void addStock(int stock) {
+        this.stockQuantity += stock;
+    }
+
+    public void removeStock(int stock) {
+
+        int restStock = this.stockQuantity -= stock;
+
+        if(restStock < 0) throw new NotEnoughStockException("need more stock");
+        this.stockQuantity = restStock;
+    }
 }
