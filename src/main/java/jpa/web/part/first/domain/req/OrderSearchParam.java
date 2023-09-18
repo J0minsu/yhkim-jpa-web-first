@@ -3,6 +3,7 @@ package jpa.web.part.first.domain.req;
 import jpa.web.part.first.domain.enums.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * packageName    : jpa.web.part.first.domain.req
@@ -18,8 +19,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@ToString
 public class OrderSearchParam {
 
     private OrderStatus orderStatus;
-    private String keyword;
+    private String keyword = "";
 }

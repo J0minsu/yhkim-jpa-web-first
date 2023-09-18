@@ -3,9 +3,11 @@ package jpa.web.part.first.repository;
 import jpa.web.part.first.domain.entity.Order;
 import jpa.web.part.first.domain.req.OrderSearchParam;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -21,6 +23,7 @@ import java.util.List;
  */
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class OrderRepository {
 
     private final EntityManager em;
@@ -40,9 +43,16 @@ public class OrderRepository {
     }
 
     public List<Order> findAll(OrderSearchParam param) {
-        return em.createQuery("SELECT o FROM Order o JOIN o.member m WHERE m.name = :name AND o.status = :status")
-                    .setParameter("name", param.getKeyword())
-                    .setParameter("status", param.getOrderStatus())
-                .getResultList();
+        log.info("param :: {}", param);
+        String query = "SELECT o FROM Order o JOIN o.member m WHERE m.name LIKE CONCAT('%', :name, '%')" + (param.getOrderStatus() != null ? " AND o.status = :status" : "");
+        log.info("query :: {}", query);
+        Query baseQuery = em.createQuery(query).setParameter("name", param.getKeyword());
+
+        if(param.getOrderStatus() != null) {
+            baseQuery.setParameter("status", param.getOrderStatus());
+        }
+
+        List<Order> resultList = baseQuery.getResultList();
+        return resultList;
     }
 }

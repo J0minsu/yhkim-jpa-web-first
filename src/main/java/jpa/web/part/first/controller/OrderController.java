@@ -2,16 +2,15 @@ package jpa.web.part.first.controller;
 
 import jpa.web.part.first.domain.entity.Item;
 import jpa.web.part.first.domain.entity.Member;
+import jpa.web.part.first.domain.entity.Order;
+import jpa.web.part.first.domain.req.OrderSearchParam;
 import jpa.web.part.first.service.ItemService;
 import jpa.web.part.first.service.MemberService;
 import jpa.web.part.first.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class OrderController {
     private final MemberService memberService;
     private final ItemService itemService;
 
-    @GetMapping("/new")
+    @GetMapping("/form")
     public String orderPage(Model model) {
 
         List<Member> members = memberService.findMembers();
@@ -48,12 +47,30 @@ public class OrderController {
 
     }
 
+    @GetMapping
+    public String orderList(@ModelAttribute("orderSearch") OrderSearchParam orderSearch, Model model) {
+
+        List<Order> orders = orderService.findOrders(orderSearch);
+        model.addAttribute("orders", orders);
+
+        return "page/order/orderList";
+
+    }
+
     @PostMapping
     public String order(@RequestParam("memberId") Long memberId,
                         @RequestParam("itemId") Long itemId,
                         @RequestParam("count") int count) {
 
         orderService.order(memberId, itemId, count);
+
+        return "redirect:/orders";
+    }
+
+    @PostMapping("/{orderId}/cancel")
+    public String cancel(@PathVariable("orderId") Long id) {
+
+        orderService.cancelOrder(id);
 
         return "redirect:/orders";
     }

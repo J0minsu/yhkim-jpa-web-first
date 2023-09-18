@@ -1,12 +1,15 @@
 package jpa.web.part.first.service;
 
 import jpa.web.part.first.domain.entity.*;
+import jpa.web.part.first.domain.req.OrderSearchParam;
 import jpa.web.part.first.repository.ItemRepository;
 import jpa.web.part.first.repository.MemberRepository;
 import jpa.web.part.first.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * packageName    : jpa.web.part.first.service
@@ -49,9 +52,10 @@ public class OrderService {
     }
 
     //R
-    /*public List<Order> findOrders(OrderSearch orderSearch) {
-        orderRepository.
-    }*/
+    public List<Order> findOrders(OrderSearchParam orderSearch) {
+        return orderRepository.findAll(orderSearch);
+    }
+
     public Order findOne(Long id) {
         return orderRepository.findOne(id);
     }
