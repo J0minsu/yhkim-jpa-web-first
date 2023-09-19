@@ -1,4 +1,4 @@
-package jpa.web.part.first.controller;
+package jpa.web.part.first.controller.page;
 
 import jpa.web.part.first.domain.entity.Item;
 import jpa.web.part.first.domain.entity.Member;

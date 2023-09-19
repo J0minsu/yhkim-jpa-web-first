@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +25,12 @@ import java.util.List;
 @Getter
 @Setter
 public class Member {
+
     @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;
+
+    @NotEmpty(message = "멤버 이름은 필수입니다.")
     private String name;
     @Embedded
     private Address address;
