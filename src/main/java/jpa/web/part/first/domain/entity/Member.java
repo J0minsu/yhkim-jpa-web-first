@@ -1,5 +1,6 @@
 package jpa.web.part.first.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jpa.web.part.first.domain.values.Address;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +35,8 @@ public class Member {
     private String name;
     @Embedded
     private Address address;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 }

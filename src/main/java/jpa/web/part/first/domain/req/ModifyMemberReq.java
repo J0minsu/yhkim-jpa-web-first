@@ -2,6 +2,7 @@ package jpa.web.part.first.domain.req;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -17,7 +18,6 @@ import javax.validation.constraints.NotEmpty;
  * 2023/09/20        ms.jo       최초 생성
  */
 @Data
-@AllArgsConstructor
 public class ModifyMemberReq {
 
     @NotEmpty
