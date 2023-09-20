@@ -1,6 +1,7 @@
 package jpa.web.part.first.service;
 
 import jpa.web.part.first.domain.entity.Member;
+import jpa.web.part.first.domain.req.ModifyMemberReq;
 import jpa.web.part.first.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -50,4 +51,11 @@ public class MemberService {
         }
     }
 
+    @Transactional
+    public void modify(Long id, ModifyMemberReq req) {
+
+        Member member = memberRepository.findOne(id);
+        member.setName(req.getName());
+
+    }
 }

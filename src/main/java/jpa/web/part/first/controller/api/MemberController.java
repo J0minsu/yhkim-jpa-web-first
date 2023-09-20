@@ -2,17 +2,16 @@ package jpa.web.part.first.controller.api;
 
 import jpa.web.part.first.domain.entity.Member;
 import jpa.web.part.first.domain.req.CreateMemberReq;
+import jpa.web.part.first.domain.req.ModifyMemberReq;
 import jpa.web.part.first.domain.res.CreateMemberRes;
+import jpa.web.part.first.domain.res.ModifyMemberRes;
 import jpa.web.part.first.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RestController
+@RestController("memberApi")
 @RequiredArgsConstructor
 public class MemberController {
 
@@ -34,7 +33,16 @@ public class MemberController {
         member.setName(req.getUsername());
         member.setAddress(req.getAddress());
 
-        memberService.regist(member);
+        Long id = memberService.regist(member);
+
+        return new CreateMemberRes(id);
+    }
+
+    @PatchMapping("/api/v2/members/{id}")
+    public ModifyMemberRes modifyV1(@PathVariable("id") Long id,
+                                    @RequestBody @Valid ModifyMemberReq req) {
+
+        memberService.modify(id, req);
 
     }
 
