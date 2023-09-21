@@ -29,7 +29,7 @@ public class MemberController {
                 .map(member -> new FindMemberRes(member.getId(), member.getName(), member.getAddress()))
                 .toList();
 
-        return new Result(list, list.size());
+        return Result.of(list);
 
     }
 

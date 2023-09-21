@@ -55,4 +55,16 @@ public class OrderRepository {
         List<Order> resultList = baseQuery.getResultList();
         return resultList;
     }
+
+    public List<Order> findAllByFetch() {
+
+        return em.createQuery("""
+                SELECT o
+                  FROM Order o
+                    JOIN FETCH o.member m
+                    JOIN FETCH o.delivery d
+                    JOIN FETCH o.orderItems oi""", Order.class)
+                .getResultList();
+
+    }
 }

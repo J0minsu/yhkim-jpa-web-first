@@ -56,8 +56,8 @@ public class InitData {
             Book bookD = createBook("고릴라 일대기 4", 30000, 10);
             em.persist(bookD);
 
-            OrderItem orderItemC = OrderItem.createOrderItem(bookC, 15000, 1);
-            OrderItem orderItemD = OrderItem.createOrderItem(bookD, 20000, 2);
+            OrderItem orderItemC = OrderItem.createOrderItem(bookC, 25000, 1);
+            OrderItem orderItemD = OrderItem.createOrderItem(bookD, 30000, 2);
             Order order = Order.createOrder(memberC, createDelivery(memberC),
                     orderItemC, orderItemD);
             em.persist(order);
