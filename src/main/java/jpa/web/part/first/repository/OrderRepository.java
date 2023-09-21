@@ -2,12 +2,14 @@ package jpa.web.part.first.repository;
 
 import jpa.web.part.first.domain.entity.Order;
 import jpa.web.part.first.domain.req.OrderSearchParam;
+import jpa.web.part.first.domain.res.FindOrderRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -64,6 +66,19 @@ public class OrderRepository {
                     JOIN FETCH o.member m
                     JOIN FETCH o.delivery d
                     JOIN FETCH o.orderItems oi""", Order.class)
+                .getResultList();
+
+    }
+
+    public List<FindOrderRes> findAllByJpql() {
+
+        return em.createQuery("""
+                SELECT new jpa.web.part.first.domain.res.FindOrderRes(o.id, m.name, SUM(oi.orderPrice * oi.count), SUM(oi.count), o.orderDate, o.status, d.address)
+                  FROM Order o
+                    JOIN o.member m
+                    JOIN o.delivery d
+                    JOIN o.orderItems oi
+                 GROUP BY o.id""", FindOrderRes.class)
                 .getResultList();
 
     }

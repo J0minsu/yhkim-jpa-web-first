@@ -45,4 +45,15 @@ public class FindOrderRes {
 
     }
 
+    public FindOrderRes(Long id, String memberName, Long price, Long stockQuantity, LocalDateTime orderDate, OrderStatus status, Address address) {
+        this.id = id;
+        this.memberName = memberName;
+        this.price = price.intValue();
+        this.stockQuantity = stockQuantity.intValue();
+        this.orderDate = orderDate;
+        this.orderStatus = status;
+        this.address = address;
+
+    }
+
 }

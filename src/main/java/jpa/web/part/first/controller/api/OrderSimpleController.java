@@ -38,15 +38,13 @@ public class OrderSimpleController {
 
     @GetMapping("api/v2/simple-orders")
     public Result ordersV2() {
-
         return Result.of(orderRepository.findAllByFetch().stream().map(FindOrderRes::new).toList());
-
     }
 
     @GetMapping("api/v3/simple-orders")
     public Result ordersV3() {
 
-        return Result.of(orderRepository.findAllByFetch().stream().map(FindOrderRes::new).toList());
+        return Result.of(orderRepository.findAllByJpql());
 
     }
 }
