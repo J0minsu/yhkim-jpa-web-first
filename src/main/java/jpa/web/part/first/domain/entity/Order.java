@@ -96,6 +96,6 @@ public class Order {
 
     //== 조회 로직 ==//
     public int getTotalPrice() {
-        return orderItems.stream().mapToInt(OrderItem::getTotalPrice).sum();
+        return orderItems.stream().mapToInt(OrderItem::totalPrice).sum();
     }
 }

@@ -60,7 +60,7 @@ public class OrderItem {
     }
 
     //== 조회 로직 ==//
-    public int getTotalPrice() {
+    public int totalPrice() {
         return orderPrice * count;
     }
 

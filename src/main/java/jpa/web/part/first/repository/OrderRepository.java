@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -81,5 +80,15 @@ public class OrderRepository {
                  GROUP BY o.id""", FindOrderRes.class)
                 .getResultList();
 
+    }
+
+    public List<Order> findAllByJpqlMany() {
+        return em.createQuery("""
+                SELECT DISTINCT o FROM Order o
+                  JOIN FETCH o.member m
+                  JOIN FETCH o.delivery d
+                  JOIN FETCH o.orderItems oi
+                  JOIN FETCH oi.item i""", Order.class)
+                .getResultList();
     }
 }
