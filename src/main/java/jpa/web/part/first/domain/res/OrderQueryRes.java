@@ -1,8 +1,8 @@
 package jpa.web.part.first.domain.res;
 
-import jpa.web.part.first.domain.entity.Order;
 import jpa.web.part.first.domain.enums.OrderStatus;
 import jpa.web.part.first.domain.values.Address;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,34 +11,33 @@ import java.util.List;
 
 /**
  * packageName    : jpa.web.part.first.domain.res
- * fileName       : OrderManyRes
+ * fileName       : OrderQueryRes
  * author         : ms.jo
- * date           : 2023/09/22
+ * date           : 2023/09/25
  * description    :
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2023/09/22        ms.jo       최초 생성
+ * 2023/09/25        ms.jo       최초 생성
  */
 @Data
 @NoArgsConstructor
-public class OrderManyRes {
+@AllArgsConstructor
+public class OrderQueryRes {
 
     private Long orderId;
     private String name;
     private LocalDateTime orderDate;
-    private OrderStatus orderStatus;
+    private OrderStatus status;
     private Address address;
-    private List<OrderItemManyRes> orderItems;
 
-    public OrderManyRes(Order order) {
-        this.orderId = order.getId();
-        this.name = order.getMember().getName();
-        this.orderDate = order.getOrderDate();
-        this.orderStatus = order.getStatus();
-        this.address = order.getDelivery().getAddress();
-        this.orderItems = order.getOrderItems().stream().map(OrderItemManyRes::new).toList();
+    private List<OrderItemQueryRes> items;
+
+    public OrderQueryRes(Long orderId, String name, LocalDateTime orderDate, OrderStatus status, Address address) {
+        this.orderId = orderId;
+        this.name = name;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.address = address;
     }
-
 }
-

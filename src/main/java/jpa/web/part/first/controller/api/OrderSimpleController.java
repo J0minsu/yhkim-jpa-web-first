@@ -3,12 +3,11 @@ package jpa.web.part.first.controller.api;
 import jpa.web.part.first.domain.entity.Order;
 import jpa.web.part.first.domain.entity.OrderItem;
 import jpa.web.part.first.domain.req.OrderSearchParam;
-import jpa.web.part.first.domain.res.FindOrderRes;
-import jpa.web.part.first.domain.res.OrderManyRes;
-import jpa.web.part.first.domain.res.Result;
+import jpa.web.part.first.domain.res.*;
 import jpa.web.part.first.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -76,6 +75,45 @@ public class OrderSimpleController {
     @GetMapping("/api/v3/orders")
     public Result ordersV3() {
         List<Order> all = orderRepository.findAllByJpqlMany();
+
+        return Result.of(all);
+    }
+    @GetMapping("/api/v3.1/orders")
+    public Result ordersV3_1(@RequestParam(value = "offset", defaultValue = "0") int offset,
+                             @RequestParam(value = "limit", defaultValue = "100") int limit) {
+
+        List<Order> all = orderRepository.findAllByJpqlManyWithPage(offset, limit);
+        List<OrderManyRes> result = all.stream().map(OrderManyRes::new).toList();
+
+        return Result.of(result);
+    }
+
+    @GetMapping("/api/v4/orders")
+    public Result ordersV4() {
+        List<OrderQueryRes> all = orderRepository.findAllByJpqlManyUsingDto();
+
+        return Result.of(all);
+    }
+
+    @GetMapping("/api/v5/orders")
+    public Result ordersV5() {
+        List<OrderQueryRes> all = orderRepository.findAllByDtoUsingOptimization();
+
+        return Result.of(all);
+    }
+
+    @GetMapping("/api/v6/orders")
+    public Result ordersV6() {
+        List<OrderFlatRes> all = orderRepository.findAllByDtoUsingFlat();
+
+        return Result.of(all);
+    }
+
+    @GetMapping("/api/v6.1/orders")
+    public Result ordersV6_1() {
+        List<OrderFlatRes> all = orderRepository.findAllByDtoUsingFlat();
+
+//        List<OrderQueryRes> result = all.stream().collect()
 
         return Result.of(all);
     }
