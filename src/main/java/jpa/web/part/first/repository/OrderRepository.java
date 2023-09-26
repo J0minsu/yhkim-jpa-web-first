@@ -97,6 +97,12 @@ public class OrderRepository {
                 .getResultList();
     }
 
+    /**
+     * Using batch_fetch with Lazy
+     * @param offset
+     * @param limit
+     * @return
+     */
     public List<Order> findAllByJpqlManyWithPage(int offset, int limit) {
         return em.createQuery("""
                 SELECT DISTINCT o FROM Order o
